@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/predprof-olympiad-webapp/static/css/main.f6c911f1.chunk.css",
-    "main.js": "/predprof-olympiad-webapp/static/js/main.09624638.chunk.js",
-    "main.js.map": "/predprof-olympiad-webapp/static/js/main.09624638.chunk.js.map",
-    "runtime-main.js": "/predprof-olympiad-webapp/static/js/runtime-main.21a39854.js",
-    "runtime-main.js.map": "/predprof-olympiad-webapp/static/js/runtime-main.21a39854.js.map",
-    "static/js/2.5039eeb9.chunk.js": "/predprof-olympiad-webapp/static/js/2.5039eeb9.chunk.js",
-    "static/js/2.5039eeb9.chunk.js.map": "/predprof-olympiad-webapp/static/js/2.5039eeb9.chunk.js.map",
+    "main.js": "/predprof-olympiad-webapp/static/js/main.f7a2cc31.chunk.js",
+    "main.js.map": "/predprof-olympiad-webapp/static/js/main.f7a2cc31.chunk.js.map",
+    "runtime-main.js": "/predprof-olympiad-webapp/static/js/runtime-main.e99269bb.js",
+    "runtime-main.js.map": "/predprof-olympiad-webapp/static/js/runtime-main.e99269bb.js.map",
+    "static/css/2.150d169a.chunk.css": "/predprof-olympiad-webapp/static/css/2.150d169a.chunk.css",
+    "static/js/2.a1e75afa.chunk.js": "/predprof-olympiad-webapp/static/js/2.a1e75afa.chunk.js",
+    "static/js/2.a1e75afa.chunk.js.map": "/predprof-olympiad-webapp/static/js/2.a1e75afa.chunk.js.map",
     "index.html": "/predprof-olympiad-webapp/index.html",
-    "static/css/main.f6c911f1.chunk.css.map": "/predprof-olympiad-webapp/static/css/main.f6c911f1.chunk.css.map",
-    "static/js/2.5039eeb9.chunk.js.LICENSE.txt": "/predprof-olympiad-webapp/static/js/2.5039eeb9.chunk.js.LICENSE.txt"
+    "static/css/2.150d169a.chunk.css.map": "/predprof-olympiad-webapp/static/css/2.150d169a.chunk.css.map",
+    "static/js/2.a1e75afa.chunk.js.LICENSE.txt": "/predprof-olympiad-webapp/static/js/2.a1e75afa.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.21a39854.js",
-    "static/js/2.5039eeb9.chunk.js",
-    "static/css/main.f6c911f1.chunk.css",
-    "static/js/main.09624638.chunk.js"
+    "static/js/runtime-main.e99269bb.js",
+    "static/css/2.150d169a.chunk.css",
+    "static/js/2.a1e75afa.chunk.js",
+    "static/js/main.f7a2cc31.chunk.js"
   ]
 }
