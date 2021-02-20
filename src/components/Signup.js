@@ -24,7 +24,7 @@ export default function Signup() {
       setError("")
       setLoading(true)
       await signup(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+      history.push("/predprof-olympiad-webapp/")
     } catch {
       setError("Failed to create an account")
     }
@@ -36,7 +36,7 @@ export default function Signup() {
     <>
       <div>
         <Navbar bg="primary" variant="dark" fixed = "top">
-            <Navbar.Brand href="/">
+            <Navbar.Brand href="/predprof-olympiad-webapp/">
               <h4><FaWeight/>{'       '}
               <strong>Контроль веса</strong></h4>
           </Navbar.Brand>
@@ -66,7 +66,7 @@ export default function Signup() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Уже есть аккаунт? <Link to="/login">Войти!</Link>
+        Уже есть аккаунт? <Link to="/predprof-olympiad-webapp/login/">Войти!</Link>
       </div>
     </>
   )

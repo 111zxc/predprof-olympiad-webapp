@@ -46,7 +46,7 @@ export default function UpdateProfile() {
     <>
       <div>
         <Navbar bg="primary" variant="dark" fixed = "top">
-            <Navbar.Brand href="/">
+            <Navbar.Brand href="/predprof-olympiad-webapp/">
               <h4><FaWeight/>{'       '}
               <strong>Контроль веса</strong></h4>
           </Navbar.Brand>
@@ -89,7 +89,7 @@ export default function UpdateProfile() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        <Link to="/">Cancel</Link>
+        <Link to="/predprof-olympiad-webapp/">Cancel</Link>
       </div>
     </>
   )

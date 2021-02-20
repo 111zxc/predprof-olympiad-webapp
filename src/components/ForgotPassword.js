@@ -31,7 +31,7 @@ export default function ForgotPassword() {
     <>
       <div>
         <Navbar bg="primary" variant="dark" fixed = "top">
-            <Navbar.Brand href="/">
+            <Navbar.Brand href="/predprof-olympiad-webapp/">
               <h4><FaWeight/>{'       '}
               <strong>Контроль веса</strong></h4>
           </Navbar.Brand>
@@ -57,7 +57,7 @@ export default function ForgotPassword() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Ещё не зарегистрированы? <Link to="/signup">Зарегистрироваться!</Link>
+        Ещё не зарегистрированы? <Link to="/predprof-olympiad-webapp/signup">Зарегистрироваться!</Link>
       </div>
     </>
   )

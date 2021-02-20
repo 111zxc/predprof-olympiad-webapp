@@ -19,11 +19,11 @@ function App() {
         <Router>
           <AuthProvider>
             <Switch>
-              <PrivateRoute exact path="/" component={Dashboard} />
-              <PrivateRoute path="/update-profile" component={UpdateProfile} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/login" component={Login} />
-              <Route path="/forgot-password" component={ForgotPassword} />
+              <PrivateRoute exact path="/predprof-olympiad-webapp/" component={Dashboard} />
+              <PrivateRoute path="/predprof-olympiad-webapp/update-profile" component={UpdateProfile} />
+              <Route path="/predprof-olympiad-webapp/signup" component={Signup} />
+              <Route path="/predprof-olympiad-webapp/login" component={Login} />
+              <Route path="/predprof-olympiad-webapp/forgot-password" component={ForgotPassword} />
             </Switch>
           </AuthProvider>
         </Router>
