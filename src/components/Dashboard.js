@@ -5,67 +5,9 @@ import { useHistory } from "react-router-dom"
 import { FaWeight } from 'react-icons/fa';
 import Chart from "./Chart"
 import DatePicker from "react-datepicker";
+import app from "../firebase";
 
 import "react-datepicker/dist/react-datepicker.css";
-
-const chartdata = [
-  {
-    name: '06.02.2021',
-    kg: 62,
-  },
-  {
-    name: '07.02.2021',
-    kg: 61,
-  },
-  {
-    name: '08.02.2021',
-    kg: 64,
-  },
-  {
-    name: '09.02.2021',
-    kg: 60,
-  },
-  {
-    name: '10.02.2021',
-    kg: 62,
-  },
-  {
-    name: '11.02.2021',
-    kg: 62,
-  },
-  {
-    name: '12.02.2021',
-    kg: 61,
-  },
-  {
-    name: '13.02.2021',
-    kg: 67,
-  },
-  {
-    name: '14.02.2021',
-    kg: 75,
-  },
-  {
-    name: '15.02.2021',
-    kg: 62,
-  },
-  {
-    name: '16.02.2021',
-    kg: 63,
-  },
-  {
-    name: '17.02.2021',
-    kg: 61,
-  },
-  {
-    name: '18.02.2021',
-    kg: 64,
-  },
-  {
-    name: '19.02.2021',
-    kg: 63,
-  },
-];
 
 export default function Dashboard() {
   const [error, setError] = useState("")
@@ -73,11 +15,12 @@ export default function Dashboard() {
   
   const history = useHistory();
   
-  const weightRef = useRef(50);
+  const weightRef = useRef();
+
   function handleNav(curEvent){
     switch(curEvent){
       case 1: break; //Неделя
-      case 2: <Chart data = {chartdata}/>; break; //Две недели
+      case 2: break; //Две недели
       case 3: break; //Месяц 
       case 4: break; //Полгода
       case 5: break; //Год
@@ -91,6 +34,14 @@ export default function Dashboard() {
   const handleShow = () => setShow(true);
 
   const [startDate, setStartDate] = useState(new Date());
+
+  function weightSubmit(e){
+    let curDate = new Date();
+    let dd = String(curDate.getDate()).padStart(2, '0');
+    let mm = String(curDate.getMonth() + 1).padStart(2, '0');
+    let emailRoute = (currentUser.email).replace(".", "");
+    app.database().ref(emailRoute).push(weightRef.current.value + "/" + dd + mm);
+  }
 
   async function handleLogout() {
     setError("")
@@ -138,7 +89,7 @@ export default function Dashboard() {
         <Modal.Body>
         <Form>
         <Form.Group>
-          <Form.Control ref={weightRef}/>
+          <Form.Control ref={weightRef} type="text" required />
         </Form.Group>
         </Form>
         </Modal.Body>
@@ -146,7 +97,7 @@ export default function Dashboard() {
           <Button variant="secondary" onClick={handleClose}>
             Закрыть
           </Button>
-          <Button variant="primary">Применить</Button>
+          <Button variant="primary" onClick={weightSubmit}>Применить</Button>
         </Modal.Footer>
       </Modal>
         </Jumbotron>
