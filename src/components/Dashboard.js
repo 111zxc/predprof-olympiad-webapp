@@ -1,20 +1,96 @@
 import React, { useState, useRef } from "react"
-import { Card, Button, Navbar, Nav, Jumbotron, Modal, Form, Row } from "react-bootstrap"
+import { Card, Button, Navbar, Nav, Jumbotron, Modal, Form } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { useHistory } from "react-router-dom"
 import { FaWeight } from 'react-icons/fa';
 import Chart from "./Chart"
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
+
+const chartdata = [
+  {
+    name: '06.02.2021',
+    kg: 62,
+  },
+  {
+    name: '07.02.2021',
+    kg: 61,
+  },
+  {
+    name: '08.02.2021',
+    kg: 64,
+  },
+  {
+    name: '09.02.2021',
+    kg: 60,
+  },
+  {
+    name: '10.02.2021',
+    kg: 62,
+  },
+  {
+    name: '11.02.2021',
+    kg: 62,
+  },
+  {
+    name: '12.02.2021',
+    kg: 61,
+  },
+  {
+    name: '13.02.2021',
+    kg: 67,
+  },
+  {
+    name: '14.02.2021',
+    kg: 75,
+  },
+  {
+    name: '15.02.2021',
+    kg: 62,
+  },
+  {
+    name: '16.02.2021',
+    kg: 63,
+  },
+  {
+    name: '17.02.2021',
+    kg: 61,
+  },
+  {
+    name: '18.02.2021',
+    kg: 64,
+  },
+  {
+    name: '19.02.2021',
+    kg: 63,
+  },
+];
 
 export default function Dashboard() {
   const [error, setError] = useState("")
   const { currentUser, logout } = useAuth()
+  
   const history = useHistory();
+  
   const weightRef = useRef(50);
+  function handleNav(curEvent){
+    switch(curEvent){
+      case 1: break; //Неделя
+      case 2: <Chart data = {chartdata}/>; break; //Две недели
+      case 3: break; //Месяц 
+      case 4: break; //Полгода
+      case 5: break; //Год
+      default: break;
+    }
+  }
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [startDate, setStartDate] = useState(new Date());
 
   async function handleLogout() {
     setError("")
@@ -41,7 +117,7 @@ export default function Dashboard() {
             </Button>
             </Navbar.Collapse>
         </Navbar>
-        <Jumbotron>
+        <Jumbotron className="justify-content-center"> 
           <h3>Не забывайте вводить вес!</h3>
           <p>
             Ежедневный ввод веса позволит строить более точные и полезные графики!
@@ -54,7 +130,6 @@ export default function Dashboard() {
           <Modal
         show={show}
         onHide={handleClose}
-        backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
@@ -75,7 +150,7 @@ export default function Dashboard() {
         </Modal.Footer>
       </Modal>
         </Jumbotron>
-          <Card style = {{width: '37.5rem'}}>
+          <Card className = "justify-content-center" style = {{width: '37.5rem'}}>
           <Card.Header>
           <Nav  bg = "primary" className = "justify-content-center" variant="pills" defaultActiveKey="#first">
             <Nav.Item>
@@ -93,13 +168,12 @@ export default function Dashboard() {
             <Nav.Item>
             <Nav.Link eventKey = "5">Год</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey = "6">Вручную</Nav.Link>
-            </Nav.Item>
           </Nav>
           </Card.Header>
             <Card.Body>
               <Chart />
+              Начальная дата:
+              <DatePicker selected={startDate} onChange={date => setStartDate(date)} className = "justify-content-center" />
             </Card.Body>
           </Card>
       </div>
