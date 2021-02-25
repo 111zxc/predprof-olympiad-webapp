@@ -1,17 +1,18 @@
 import React from "react"
 import { Nav, Form, Card } from "react-bootstrap"
+export var startDate;
 
 export default function ChartNav(){
 
     let curDate = new Date();
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
-
+    curDate = parseInt(dd) + parseInt(mm) * 30;
+    startDate = 85;
     const handleSelect = (eventKey) => {
-        let startDate = "";
-        if(eventKey == 1) {startDate = (dd-7) + mm;}
-        else if(eventKey == 2) {startDate = (dd-14) + mm;}
-        else if(eventKey == 3) {startDate = dd + "0" + (mm - 1);} 
+        if(eventKey == 1) { startDate = curDate - 7; }
+        else if(eventKey == 2) { startDate = curDate - 14; }
+        else if(eventKey == 3) { startDate = curDate - 30; } 
         else{ startDate = dd + mm; }
         console.log(startDate);
     }

@@ -1,5 +1,21 @@
 import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import startDate from "../components/Navbar";
+import app from "../firebase";
+
+
+var curDate = new Date();
+var dd = String(curDate.getDate()).padStart(2, '0');
+var mm = String(curDate.getMonth() + 1).padStart(2, '0');
+curDate = parseInt(dd) + parseInt(mm) * 30;
+var dateRange = [];
+
+for(let i = startDate; i <= curDate; i++){
+  dateRange.push(i);
+}
+
+
+
 
 const data = [
   {

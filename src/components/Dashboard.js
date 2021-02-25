@@ -30,7 +30,7 @@ export default function Dashboard() {
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
     let emailRoute = (currentUser.email).replace(".", "");
-    app.database().ref(emailRoute).push(weightRef.current.value + "/" + dd + mm);
+    app.database().ref(emailRoute).push(weightRef.current.value + "/" + String(parseInt(dd) + parseInt(mm) * 30));
     app.database().ref().child(emailRoute).get().then(function(snapshot) {
       if (snapshot.exists()) {
       console.log(snapshot.val());
