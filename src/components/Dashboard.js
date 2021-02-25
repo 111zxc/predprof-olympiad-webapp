@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react"
-import { Card, Button, Navbar, Nav, Jumbotron, Modal, Form } from "react-bootstrap"
+import { Card, Button, Navbar, Jumbotron, Modal, Form } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { useHistory } from "react-router-dom"
 import { FaWeight } from 'react-icons/fa';
 import Chart from "./Chart"
 import DatePicker from "react-datepicker";
 import app from "../firebase";
+import ChartNav from "./Navbar"
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -16,17 +17,6 @@ export default function Dashboard() {
   const history = useHistory();
   
   const weightRef = useRef();
-
-  function handleNav(curEvent){
-    switch(curEvent){
-      case 1: break; //Неделя
-      case 2: break; //Две недели
-      case 3: break; //Месяц 
-      case 4: break; //Полгода
-      case 5: break; //Год
-      default: break;
-    }
-  }
 
   const [show, setShow] = useState(false);
 
@@ -41,6 +31,16 @@ export default function Dashboard() {
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
     let emailRoute = (currentUser.email).replace(".", "");
     app.database().ref(emailRoute).push(weightRef.current.value + "/" + dd + mm);
+    app.database().ref().child(emailRoute).get().then(function(snapshot) {
+      if (snapshot.exists()) {
+      console.log(snapshot.val());
+      }
+      else {
+      console.log("No data available");
+      }
+      }).catch(function(error) {
+      console.error(error);
+      });
   }
 
   async function handleLogout() {
@@ -103,28 +103,12 @@ export default function Dashboard() {
         </Jumbotron>
           <Card className = "justify-content-center" style = {{width: '37.5rem'}}>
           <Card.Header>
-          <Nav  bg = "primary" className = "justify-content-center" variant="pills" defaultActiveKey="#first">
-            <Nav.Item>
-              <Nav.Link eventKey = "1">Неделя</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-            <Nav.Link eventKey = "2">Две недели</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey = "3">Месяц</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey = "4">Полгода</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-            <Nav.Link eventKey = "5">Год</Nav.Link>
-            </Nav.Item>
-          </Nav>
+          <ChartNav />
           </Card.Header>
             <Card.Body>
               <Chart />
               Начальная дата:
-              <DatePicker selected={startDate} onChange={date => setStartDate(date)} className = "justify-content-center" />
+              <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
             </Card.Body>
           </Card>
       </div>
