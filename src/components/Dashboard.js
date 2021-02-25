@@ -6,7 +6,7 @@ import { FaWeight } from 'react-icons/fa';
 import Chart from "./Chart"
 import DatePicker from "react-datepicker";
 import app from "../firebase";
-import ChartNav from "./Navbar"
+import  ChartNav from "./Navbar"
 
 import "react-datepicker/dist/react-datepicker.css";
 

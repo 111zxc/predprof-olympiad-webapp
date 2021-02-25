@@ -1,75 +1,55 @@
-import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import startDate from "../components/Navbar";
+import React from 'react';
+import { startDate } from "../components/Navbar";
 import app from "../firebase";
-
-
-var curDate = new Date();
-var dd = String(curDate.getDate()).padStart(2, '0');
-var mm = String(curDate.getMonth() + 1).padStart(2, '0');
-curDate = parseInt(dd) + parseInt(mm) * 30;
-var dateRange = [];
-
-for(let i = startDate; i <= curDate; i++){
-  dateRange.push(i);
-}
+import { useAuth } from "../contexts/AuthContext"
+import { Button } from "react-bootstrap"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import DrawChart from "./DrawChart"
 
 
 
 
-const data = [
-  {
-    name: '13.02.2021',
-    kg: 63,
-  },
-  {
-    name: '14.02.2021',
-    kg: 62,
-  },
-  {
-    name: '15.02.2021',
-    kg: 65,
-  },
-  {
-    name: '16.02.2021',
-    kg: 67,
-  },
-  {
-    name: '17.02.2021',
-    kg: 61,
-  },
-  {
-    name: '18.02.2021',
-    kg: 64,
-  },
-  {
-    name: '19.02.2021',
-    kg: 63,
-  },
-];
 
-export default class Example extends PureComponent {
 
-  render() {
-    return (
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="kg" stroke="#8884d8" activeDot={{ r: 8 }} />
-        </LineChart>
+
+
+export default function Example() {
+
+
+  var data = [{name: "70", kg: 103}, {name: "71", kg: 11}];
+
+  var inf, graphW, graphD;
+
+  const { currentUser, logout } = useAuth()
+  var curDate = new Date();
+  var dd = String(curDate.getDate()).padStart(2, '0');
+  var mm = String(curDate.getMonth() + 1).padStart(2, '0');
+  curDate = parseInt(dd) + parseInt(mm) * 30;
+  var dateRange = [];
+  var emailRoute = (currentUser.email).replace(".", "");
+
+  function handleClick(e){
+    app.database().ref(emailRoute).get().then(function(snapshot) {
+      if (snapshot.exists()) {
+          snapshot.forEach((child) => {
+              var pos = child.val().search('/');
+              var date = parseInt(child.val().slice(pos + 1, pos + 5)); 
+              if (date >= startDate && date <= curDate)
+              {
+                      graphW = parseInt(child.val().slice(0, pos));
+                      graphD = String(date);
+                      data.push({ name: graphD, kg: graphW });
+                      console.log(data);
+              }
+        });
+
+      }
+    });
+  }
+  
+  return (
+        <> 
+        <DrawChart/>
+        </>
     );
   }
-}

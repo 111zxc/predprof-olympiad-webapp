@@ -1,9 +1,9 @@
 import React from "react"
 import { Nav, Form, Card } from "react-bootstrap"
-export var startDate;
+export let startDate;
+
 
 export default function ChartNav(){
-
     let curDate = new Date();
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
