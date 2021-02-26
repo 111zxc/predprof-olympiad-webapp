@@ -9,8 +9,6 @@ import { startDate } from "../components/Navbar";
 
 const Dankmemes = () => {
   const [chartData, setChartData] = useState({});
-  const [employeeSalary, setEmployeeSalary] = useState([]);
-  const [employeeAge, setEmployeeAge] = useState([]);
   const { currentUser, logout } = useAuth()
 
   const chart = () => {

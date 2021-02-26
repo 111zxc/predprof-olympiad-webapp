@@ -41,6 +41,7 @@ export default function Dashboard() {
       }).catch(function(error) {
       console.error(error);
       });
+      handleClose();
   }
 
   async function handleLogout() {
