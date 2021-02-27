@@ -1,21 +1,38 @@
 import React from "react"
 import { Nav, Card } from "react-bootstrap"
+import { useAuth } from "../contexts/AuthContext"
+import Chart from "./DrawChart"
 export let startDate;
+export let data = [];
+export let curDate;
+export let emailRoute = "";
+
+
+
 
 
 export default function ChartNav(){
-    let curDate = new Date();
+    curDate = new Date();
+    const { currentUser, logout } = useAuth()
+    emailRoute = (currentUser.email).replace(".", "");
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
-    curDate = parseInt(dd) + parseInt(mm) * 30;
-    startDate = 85;
+    curDate = 365 + parseInt(dd) + parseInt(mm) * 30;
+    startDate = 365 + 85;
     const handleSelect = (eventKey) => {
         if(eventKey == 1) { startDate = curDate - 7; }
         else if(eventKey == 2) { startDate = curDate - 14; }
         else if(eventKey == 3) { startDate = curDate - 30; } 
-        else{ startDate = dd + mm; }
+        else if(eventKey == 4) { startDate = curDate - 123; }
+        else if(eventKey == 5) { startDate = curDate - 365; }
+        else{ startDate = dd + mm * 30; }
         console.log(startDate);
     }
+
+    
+
+
+
 
     return(
         <Card>
@@ -36,6 +53,7 @@ export default function ChartNav(){
                 <Nav.Link eventKey = "5">Год</Nav.Link>
             </Nav.Item>
         </Nav>
+        <Chart/>
         </Card>
-    )
+    );
 }

@@ -3,10 +3,10 @@ import { Card, Button, Navbar, Jumbotron, Modal, Form } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { useHistory } from "react-router-dom"
 import { FaWeight } from 'react-icons/fa';
-import Chart from "./Chart"
 import DatePicker from "react-datepicker";
 import app from "../firebase";
-import  ChartNav from "./Navbar"
+import  ChartNav, { data } from "./Navbar"
+import Chart from "./DrawChart"
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -30,7 +30,7 @@ export default function Dashboard() {
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
     let emailRoute = (currentUser.email).replace(".", "");
-    app.database().ref(emailRoute).push(weightRef.current.value + "/" + String(parseInt(dd) + parseInt(mm) * 30));
+    app.database().ref(emailRoute).push(weightRef.current.value + "/" + String(365 + parseInt(dd) + parseInt(mm) * 30));
     app.database().ref().child(emailRoute).get().then(function(snapshot) {
       if (snapshot.exists()) {
       console.log(snapshot.val());
@@ -104,10 +104,9 @@ export default function Dashboard() {
         </Jumbotron>
           <Card className = "justify-content-center" style = {{width: '37.5rem'}}>
           <Card.Header>
-          <ChartNav />
           </Card.Header>
             <Card.Body>
-              <Chart />
+              <ChartNav />
               Начальная дата:
               <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
             </Card.Body>

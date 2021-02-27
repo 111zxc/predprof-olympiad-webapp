@@ -1,92 +1,75 @@
-import React, { useState, useEffect } from "react";
-import { Line } from "react-chartjs-2";
-import { useAuth } from "../contexts/AuthContext"
+import React, { Component } from 'react';
+import { Button } from "react-bootstrap"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import app from "../firebase";
-import { startDate } from "../components/Navbar";
+import {startDate, curDate, emailRoute } from "./Navbar"
 
 
 
 
-const Dankmemes = () => {
-  const [chartData, setChartData] = useState({});
-  const { currentUser, logout } = useAuth()
+export default class Example extends React.Component {
 
-  const chart = () => {
-    var inf, graphW, graphD;
 
-    var curDate = new Date();
-    var dd = String(curDate.getDate()).padStart(2, '0');
-    var mm = String(curDate.getMonth() + 1).padStart(2, '0');
-    curDate = parseInt(dd) + parseInt(mm) * 30;
-    var dateRange = [];
-    var emailRoute = (currentUser.email).replace(".", "");
-    let weights = [];
-    let names = [];
+  newData = [];
+
+  constructor(props){
+    super(props);
+    this.state = { data: [{kg:11, name: 123}, {kg: 15, name: 115 }] };
+    this.DateChange = this.DateChange.bind(this);
+  }
+  
+
+  DateChange(){
+    const that = this;
+    this.newData = [];
+    let graphD, graphW;
     app.database().ref(emailRoute).get().then(function(snapshot) {
-        if (snapshot.exists()) {
-            snapshot.forEach((child) => {
-                var pos = child.val().search('/');
-                var date = parseInt(child.val().slice(pos + 1, pos + 5)); 
-                if (date >= startDate && date <= curDate)
-                {
-                        graphW = parseInt(child.val().slice(0, pos));
-                        graphD = String(date);
-                        names.push(graphD);
-                        weights.push(graphW);
-                }
-          });
+      if (snapshot.exists()) {
+          snapshot.forEach((child) => {
+              var pos = child.val().search('/');
+              var date = parseInt(child.val().slice(pos + 1, pos + 5)); 
+              if (date >= startDate && date <= curDate)
+              {
+                      graphW = parseInt(child.val().slice(0, pos));
+                      graphD = date;
+                      that.newData.push({ kg: graphW, name: graphD });
+                      console.log(that.newData.length);
+                      
+              }
         }
-      });
-        setChartData({
-          labels: names,
-          datasets: [
-            {
-              label: "Вес",
-              data: weights,
-              backgroundColor: ["rgba(75, 192, 192, 0.6)"],
-              borderWidth: 4
-            }
-          ]
-        });
+        );
+        
       }
+      that.setState({data: that.newData });
+    });
+    
+  }
 
-  useEffect(() => {
-    chart();
-  }, []);
-  return (
-    <div className="App">
-      <div>
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-            title: { text: "Контроль веса", display: true },
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    beginAtZero: true
-                  },
-                  gridLines: {
-                    display: false
-                  }
-                }
-              ],
-              xAxes: [
-                {
-                  gridLines: {
-                    display: false
-                  }
-                }
-              ]
-            }
+
+  render() {
+    console.log(this.state);
+    return (
+        <>
+        <Button onClick={this.DateChange}>govno</Button>
+        <LineChart
+          width={500}
+          height={300}
+          data = { this.state.data } 
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
           }}
-        />
-      </div>
-    </div>
-  );
-};
-
-export default Dankmemes;
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="kg" stroke="#8884d8" activeDot={{ r: 8 }} />
+        </LineChart>
+        </>
+    );
+  }
+}
