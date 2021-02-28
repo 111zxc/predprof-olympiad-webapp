@@ -5,6 +5,33 @@ import app from "../firebase";
 import {startDate, curDate, emailRoute } from "./Navbar"
 
 
+function DateTransfer(date){
+  date = date - 365;
+  let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
+
+  var i;
+  for (i = 0; i < mes.length; i++) {
+      if (date - mes[i] > 0)
+      {
+          date = date - mes[i];
+      }
+      else break;
+  }
+  i++;
+
+  var d;
+  if (date < 10) d = '0' + String(date);
+  else d = String(date); 
+
+  var m;
+  if (i < 10) m = '0' + String(i);
+  else m = String(i); 
+
+  var s = d + '.' + m + '.' + '2021';
+  return(s);
+}
+
+
 
 
 export default class Example extends React.Component {
@@ -14,10 +41,11 @@ export default class Example extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = { data: [{kg:11, name: 123}, {kg: 15, name: 115 }] };
+    this.state = { data: [{kg: 0, name: "0"}, {kg: 0, name: "0" }] };
     this.DateChange = this.DateChange.bind(this);
   }
   
+
 
   DateChange(){
     const that = this;
@@ -31,7 +59,7 @@ export default class Example extends React.Component {
               if (date >= startDate && date <= curDate)
               {
                       graphW = parseInt(child.val().slice(0, pos));
-                      graphD = date;
+                      graphD = DateTransfer(date);
                       that.newData.push({ kg: graphW, name: graphD });
                       console.log(that.newData.length);
                       
@@ -50,7 +78,7 @@ export default class Example extends React.Component {
     console.log(this.state);
     return (
         <>
-        <Button onClick={this.DateChange}>govno</Button>
+        <Button onClick={this.DateChange}>Обновить График</Button>
         <LineChart
           width={500}
           height={300}

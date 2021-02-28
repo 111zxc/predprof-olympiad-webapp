@@ -3,12 +3,29 @@ import { Card, Button, Navbar, Jumbotron, Modal, Form } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { useHistory } from "react-router-dom"
 import { FaWeight } from 'react-icons/fa';
-import DatePicker from "react-datepicker";
 import app from "../firebase";
-import  ChartNav, { data } from "./Navbar"
-import Chart from "./DrawChart"
+import  ChartNav from "./Navbar"
 
-import "react-datepicker/dist/react-datepicker.css";
+//import DatePicker from "react-datepicker"; //IMP!
+//import "react-datepicker/dist/react-datepicker.css";
+
+function DateTransferNew(){
+  let curDate = new Date();
+  let dd = String(curDate.getDate()).padStart(2, '0');
+  let mm = String(curDate.getMonth() + 1).padStart(2, '0');
+  let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
+  curDate = parseInt(dd);
+  for (var i = 0; i < mes.length; i++) {
+          if (i + 1 < parseInt(mm))
+          {
+              curDate = curDate + mes[i];
+          }
+          else break;
+  }
+  curDate = curDate + 365;
+  return(curDate);
+}
+
 
 export default function Dashboard() {
   const [error, setError] = useState("")
@@ -23,25 +40,40 @@ export default function Dashboard() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [startDate, setStartDate] = useState(new Date());
-
   function weightSubmit(e){
+    console.log(DateTransferNew());
+    let flag = 0; 
     let curDate = new Date();
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
     let emailRoute = (currentUser.email).replace(".", "");
-    app.database().ref(emailRoute).push(weightRef.current.value + "/" + String(365 + parseInt(dd) + parseInt(mm) * 30));
-    app.database().ref().child(emailRoute).get().then(function(snapshot) {
+    app.database().ref(emailRoute).get().then(function(snapshot) {
       if (snapshot.exists()) {
-      console.log(snapshot.val());
+          snapshot.forEach((child) => {
+              var pos = child.val().search('/');
+              var date = parseInt(child.val().slice(pos + 1, pos + 5));
+                            if (date == DateTransferNew()) {
+                                flag = 1;
+                            }
+        });
       }
+      if(flag) { alert("Вы уже ввели вес за сегодняшний день!"); }
       else {
-      console.log("No data available");
-      }
-      }).catch(function(error) {
-      console.error(error);
-      });
-      handleClose();
+        app.database().ref(emailRoute).push(weightRef.current.value + "/" + DateTransferNew());
+        app.database().ref().child(emailRoute).get().then(function(snapshot) {
+          if (snapshot.exists()) {
+          console.log(snapshot.val());
+          }
+          else {
+          console.log("No data available");
+          }
+          }).catch(function(error) {
+          console.error(error);
+          });
+          handleClose();
+    }
+    });
+      
   }
 
   async function handleLogout() {
@@ -56,7 +88,7 @@ export default function Dashboard() {
   }
 
   return (
-    <>  
+    <>
       <div>
         <Navbar bg="primary" variant="dark" fixed = "top">
             <Navbar.Brand href="/predprof-olympiad-webapp/">
@@ -108,7 +140,7 @@ export default function Dashboard() {
             <Card.Body>
               <ChartNav />
               Начальная дата:
-              <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
+              
             </Card.Body>
           </Card>
       </div>

@@ -17,8 +17,17 @@ export default function ChartNav(){
     emailRoute = (currentUser.email).replace(".", "");
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
-    curDate = 365 + parseInt(dd) + parseInt(mm) * 30;
-    startDate = 365 + 85;
+    let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
+    curDate = parseInt(dd);
+    for (var i = 0; i < mes.length; i++) {
+            if (i + 1 < parseInt(mm))
+            {
+                curDate = curDate + mes[i];
+            }
+            else break;
+    }
+    curDate = curDate + 365;
+    startDate = curDate;
     const handleSelect = (eventKey) => {
         if(eventKey == 1) { startDate = curDate - 7; }
         else if(eventKey == 2) { startDate = curDate - 14; }
