@@ -35,9 +35,9 @@ export default function Signup() {
   return (
     <>
       <div>
-        <Navbar bg="primary" variant="dark" fixed = "top">
-            <Navbar.Brand href="/predprof-olympiad-webapp/">
-              <h4><FaWeight/>{'       '}
+        <Navbar bg="primary" variant="dark" fixed="top">
+          <Navbar.Brand href="/predprof-olympiad-webapp/">
+            <h4><FaWeight />{'       '}
               <strong>Контроль веса</strong></h4>
           </Navbar.Brand>
         </Navbar>
