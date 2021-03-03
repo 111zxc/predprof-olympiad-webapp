@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom"
 import { FaWeight } from 'react-icons/fa';
 import app from "../firebase";
 import ChartNav from "./Navbar"
+export let emailRoute = "";
 
 //import DatePicker from "react-datepicker"; //IMP!
 //import "react-datepicker/dist/react-datepicker.css";
@@ -38,6 +39,8 @@ export default function Dashboard() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  emailRoute = (currentUser.email).replace(".", "");
 
   function weightSubmit(e) {
     console.log(DateTransferNew());
@@ -134,12 +137,8 @@ export default function Dashboard() {
           </Modal>
         </Jumbotron>
         <Card className="justify-content-center" style={{ width: '37.5rem' }}>
-          <Card.Header>
-          </Card.Header>
           <Card.Body>
             <ChartNav />
-              Начальная дата:
-
             </Card.Body>
         </Card>
       </div>
