@@ -6,27 +6,31 @@ import { startDate, curDate, emailRoute } from "./Navbar"
 
 
 function DateTransfer(date) {
-  date = date - 365;
+  var tempD;
+  if (date > 365) tempD = date - 365;
+  else tempD = date;
   let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
-
   var i;
   for (i = 0; i < mes.length; i++) {
-    if (date - mes[i] > 0) {
-      date = date - mes[i];
+    if (tempD - mes[i] > 0) {
+      tempD = tempD - mes[i];
     }
     else break;
   }
   i++;
 
   var d;
-  if (date < 10) d = '0' + String(date);
-  else d = String(date);
+  if (tempD < 10) d = '0' + String(tempD);
+  else d = String(tempD);
 
   var m;
   if (i < 10) m = '0' + String(i);
   else m = String(i);
 
-  var s = d + '.' + m + '.' + '2021';
+  var s = d + '.' + m + '.';
+  if (date > 365) s += '2021';
+  else s += '2020';
+
   return (s);
 }
 
