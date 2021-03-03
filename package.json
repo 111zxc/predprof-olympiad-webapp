@@ -53,5 +53,16 @@
   "devDependencies": {
     "firestore-export-import": "^0.11.0",
     "gh-pages": "^3.1.0"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/111zxc/predprof-olympiad-webapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/111zxc/predprof-olympiad-webapp/issues"
+  },
+  "description": ""
 }

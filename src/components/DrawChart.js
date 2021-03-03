@@ -57,16 +57,23 @@ export default class Example extends React.Component {
           var date = parseInt(child.val().slice(pos + 1, pos + 5));
           if (date >= startDate && date <= curDate) {
             graphW = parseInt(child.val().slice(0, pos));
-            graphD = DateTransfer(date);
-            that.newData.push({ kg: graphW, name: graphD });
-            console.log(that.newData.length);
-
+            //graphD = DateTransfer(date);
+            that.newData.push({ kg: graphW, name: date }); //name: graphD
+            //console.log(that.newData.length);
           }
         }
         );
-
       }
+      that.newData.sort(function(a, b){
+          return a.name-b.name;
+      })
+      for(var i = 0; i < that.newData.length; i++)
+      {
+        that.newData[i].name = DateTransfer(that.newData[i].name);
+      }
+
       that.setState({ data: that.newData });
+      console.log(that.data);
     });
 
   }
