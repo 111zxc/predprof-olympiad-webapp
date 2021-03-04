@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+#readme
+.md
+
 # production
 /build
 
