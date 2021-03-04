@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/predprof-olympiad-webapp/static/js/main.6a260499.chunk.js",
-    "main.js.map": "/predprof-olympiad-webapp/static/js/main.6a260499.chunk.js.map",
+    "main.js": "/predprof-olympiad-webapp/static/js/main.ec8683c5.chunk.js",
+    "main.js.map": "/predprof-olympiad-webapp/static/js/main.ec8683c5.chunk.js.map",
     "runtime-main.js": "/predprof-olympiad-webapp/static/js/runtime-main.e99269bb.js",
     "runtime-main.js.map": "/predprof-olympiad-webapp/static/js/runtime-main.e99269bb.js.map",
     "static/css/2.f4a6a311.chunk.css": "/predprof-olympiad-webapp/static/css/2.f4a6a311.chunk.css",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.e99269bb.js",
     "static/css/2.f4a6a311.chunk.css",
     "static/js/2.66d58b8c.chunk.js",
-    "static/js/main.6a260499.chunk.js"
+    "static/js/main.ec8683c5.chunk.js"
   ]
 }
