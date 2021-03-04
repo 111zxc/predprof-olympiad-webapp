@@ -70,12 +70,12 @@ export default class Example extends React.Component {
     this.HandleChange = this.HandleChange.bind(this);
   }
 
-  
-  
-  HandleChange(e){
+
+
+  HandleChange(e) {
     const that = this;
     that.state.cSDate = e; // delay
-    that.setState({cSDate: e});
+    that.setState({ cSDate: e });
     let dd = String(e.getDate()).padStart(2, '0');
     let mm = String(e.getMonth() + 1).padStart(2, '0');
     let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -86,9 +86,9 @@ export default class Example extends React.Component {
       }
       else break;
     }
-    customDate = customDate + 365; //TODO: проверка на 2021э
-    this.setState({cStartDate: customDate}); // *что то 
-    that.state.cStartDate = customDate; // *из этого лишнее
+    if (e.getYear() == 121) { customDate = customDate + 365; }
+    this.setState({ cStartDate: customDate });
+    that.state.cStartDate = customDate;
   }
 
 
@@ -127,7 +127,7 @@ export default class Example extends React.Component {
     else if (this.state.active == 3) { startDate = startDate - 30; } // Month
     else if (this.state.active == 4) { startDate = startDate - 123; } // Half a year
     else if (this.state.active == 5) { startDate = startDate - 365; } // Year
-    else if (this.state.active == 6) { startDate = this.state.cStartDate ; } // Custom
+    else if (this.state.active == 6) { startDate = this.state.cStartDate; } // Custom
 
     const that = this;
     this.newData = [];
@@ -188,7 +188,7 @@ export default class Example extends React.Component {
                   </ToggleButton>
                 ))}
               </ButtonGroup>
-              <DatePicker selected = {e} onChange={this.HandleChange} />
+              <DatePicker selected={e} onChange={this.HandleChange} />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="primary" onClick={this.HandleClose}>Применить</Button>

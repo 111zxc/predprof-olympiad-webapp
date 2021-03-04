@@ -139,7 +139,7 @@ export default function Dashboard() {
         <Card className="justify-content-center" style={{ width: '37.5rem' }}>
           <Card.Body>
             <ChartNav />
-            </Card.Body>
+          </Card.Body>
         </Card>
       </div>
     </>
