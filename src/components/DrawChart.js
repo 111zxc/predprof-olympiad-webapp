@@ -18,8 +18,8 @@ const radios = [
 const Today = new Date();
 
 
-function DateTransfer(date) {
-  var tempD;
+function DateTransfer(JDN) {
+  /*var tempD;
   if (date > 365) tempD = date - 365;
   else tempD = date;
   let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -44,7 +44,30 @@ function DateTransfer(date) {
   if (date > 365) s += '2021';
   else s += '2020';
 
-  return (s);
+  return (s);*/
+  var y =	4716,	v =	3,
+  j =	1401,	u =	5,
+  m =	2,s =	153,
+  n =	12,	w =	2,
+  r =	4, B = 274277,
+  p = 1461,	C = -38;
+  var f = JDN + j;
+  var e = r * f + v;
+  var g = Math.trunc( (e % p) / r);
+  var h = u * g + w;
+
+  var DD = Math.trunc( (h % s) / u) + 1;
+  var MM = ( (Math.trunc(h / s) + m) % n) + 1;
+  var YY = Math.trunc(e / p) - y + Math.trunc( (n + m - MM) / n);
+
+  DD = String(DD);
+  MM = String(MM);
+  YY = String(YY);
+  if (MM < 10) MM = '0' + MM;
+  if (DD < 10) DD = '0' + DD;
+
+  var s = DD + '.' + MM + '.' + YY;
+  return s;
 }
 
 
@@ -76,17 +99,23 @@ export default class Example extends React.Component {
     const that = this;
     that.state.cSDate = e; // delay
     that.setState({ cSDate: e });
-    let dd = String(e.getDate()).padStart(2, '0');
-    let mm = String(e.getMonth() + 1).padStart(2, '0');
-    let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    /*let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
     let customDate = parseInt(dd);
     for (var i = 0; i < mes.length; i++) {
       if (i + 1 < parseInt(mm)) {
         customDate = customDate + mes[i];
       }
       else break;
-    }
-    if (e.getYear() == 121) { customDate = customDate + 365; }
+    }*/
+    let dd = String(e.getDate()).padStart(2, '0');
+    let mm = String(e.getMonth() + 1).padStart(2, '0');
+    var D = parseInt(dd);
+    var M = parseInt(mm);
+    var Y = e.getFullYear();;
+    var customDate = 367 * Y - Math.trunc( (7 * (Y + 5001 + Math.trunc( (M - 9) / 7 ) )) / 4 ) + Math.trunc( (275 * M) / 9 ) + D + 1729777;
+
+    //if (e.getYear() == 121) { customDate = customDate + 365; }
     this.setState({ cStartDate: customDate });
     that.state.cStartDate = customDate;
   }
@@ -111,7 +140,7 @@ export default class Example extends React.Component {
     let curDate = new Date();
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
-    let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
+    /*let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
     curDate = parseInt(dd);
     for (var i = 0; i < mes.length; i++) {
       if (i + 1 < parseInt(mm)) {
@@ -120,7 +149,12 @@ export default class Example extends React.Component {
       else break;
     }
     curDate = curDate + 365;
-    let startDate = curDate;
+    let startDate = curDate;*/
+    var D = parseInt(dd);
+    var M = parseInt(mm);
+    var Y = curDate.getFullYear();;
+    curDate = 367 * Y - Math.trunc( (7 * (Y + 5001 + Math.trunc( (M - 9) / 7 ) )) / 4 ) + Math.trunc( (275 * M) / 9 ) + D + 1729777;
+    var startDate = curDate;
 
     if (this.state.active == 1) { startDate = startDate - 7; } // Week
     else if (this.state.active == 2) { startDate = startDate - 14; } // 2 Weekes
@@ -136,7 +170,7 @@ export default class Example extends React.Component {
       if (snapshot.exists()) {
         snapshot.forEach((child) => {
           var pos = child.val().search('/');
-          var date = parseInt(child.val().slice(pos + 1, pos + 5));
+          var date = parseInt(child.val().slice(pos + 1));
           if (date >= startDate && date <= curDate) {
             graphW = parseInt(child.val().slice(0, pos));
             //graphD = DateTransfer(date);
