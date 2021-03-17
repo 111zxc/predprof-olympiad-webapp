@@ -115,7 +115,7 @@ export default function Dashboard() {
             </Button>
           </Navbar.Collapse>
         </Navbar>
-        <Jumbotron className="justify-content-center">
+        <Jumbotron className="justify-content-center" style = {{alignItems: 'center', width: 650, alignSelf: 'center' }}>
           <h3>Не забывайте вводить вес!</h3>
           <p>
             Ежедневный ввод веса позволит строить более точные и полезные графики!
@@ -148,7 +148,7 @@ export default function Dashboard() {
             </Modal.Footer>
           </Modal>
         </Jumbotron>
-        <Card className="justify-content-center" style={{ width: '37.5rem' }}>
+        <Card className="justify-content-center" style={{ alignItems: 'center', width: 650, alignSelf: 'center' }}>
           <Card.Body>
             <ChartNav />
           </Card.Body>

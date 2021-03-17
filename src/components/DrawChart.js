@@ -196,7 +196,7 @@ export default class Example extends React.Component {
   render() {
     const e = this.state.cSDate;
     return (
-      <>
+      <div style = {{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flex: 1}} >
         <>
           <Modal
             show={this.state.show}
@@ -230,13 +230,12 @@ export default class Example extends React.Component {
           </Modal>
         </>
         <>
-          <Button onClick={this.HandleOpen} className="justify-content-center">Обновить График</Button>
           <LineChart
             width={500}
-            height={300}
+            height={350}
             data={this.state.data}
             margin={{
-              top: 5,
+              top: 30,
               right: 30,
               left: 20,
               bottom: 5,
@@ -250,7 +249,8 @@ export default class Example extends React.Component {
             <Line type="monotone" dataKey="kg" stroke="#8884d8" activeDot={{ r: 8 }} />
           </LineChart>
         </>
-      </>
+        <Button onClick={this.HandleOpen} style = {{ justifyContent: 'center', flexDirection: 'row', flex: 1 }}>Обновить График</Button>
+      </div>
     );
   }
 }
