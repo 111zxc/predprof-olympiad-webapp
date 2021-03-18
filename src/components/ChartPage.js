@@ -104,7 +104,7 @@ export default function Dashboard() {
   return (
     <>
       <div>
-        <Navbar bg="primary" variant="dark" fixed="top">
+        <Navbar bg="primary" className ="mb-4" variant="dark"  style = {{}}>
           <Navbar.Brand href="/predprof-olympiad-webapp/">
             <h4><FaWeight />{'       '}
               <strong>Контроль веса</strong></h4>
@@ -115,7 +115,8 @@ export default function Dashboard() {
             </Button>
           </Navbar.Collapse>
         </Navbar>
-        <Jumbotron className="justify-content-center" style = {{alignItems: 'center', width: 650, alignSelf: 'center' }}>
+        
+        <Jumbotron className ="w-100 mt-5 justify-content-center">
           <h3>Не забывайте вводить вес!</h3>
           <p>
             Ежедневный ввод веса позволит строить более точные и полезные графики!
@@ -148,7 +149,7 @@ export default function Dashboard() {
             </Modal.Footer>
           </Modal>
         </Jumbotron>
-        <Card className="justify-content-center" style={{ alignItems: 'center', width: 650, alignSelf: 'center' }}>
+        <Card className = "w-100 text-center mt-2"  >
           <Card.Body>
             <ChartNav />
           </Card.Body>

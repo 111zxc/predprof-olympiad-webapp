@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const radios = [
   { name: 'Неделя', value: '1' },
-  { name: 'Две недели', value: '2' },
+  { name: '2 недели', value: '2' },
   { name: 'Месяц', value: '3' },
   { name: 'Полгода', value: '4' },
   { name: 'Год', value: '5' },
@@ -196,23 +196,25 @@ export default class Example extends React.Component {
   render() {
     const e = this.state.cSDate;
     return (
-      <div style = {{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flex: 1}} >
+      <div  >
         <>
           <Modal
+            className = "w-100 text-center justify-content-center align-items-center"
             show={this.state.show}
             onHide={this.HandleClose}
             keyboard={false}
           >
             <Modal.Header closeButton>
-              <Modal.Title>Ввод веса</Modal.Title>
+              <Modal.Title>Настройки графика</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-              <ButtonGroup toggle>
+            <Modal.Body className = "justify-content-center w-100">
+              <ButtonGroup vertical toggle className = "mb-4 w-2 justify-content-center" >
                 {radios.map((radio, idx) => (
                   <ToggleButton
+                    className = "w-1 justify-content-center"
                     key={idx}
                     type="radio"
-                    variant="secondary"
+                    variant="primary"
                     name="radio"
                     value={radio.value}
                     checked={this.state.active === radio.value}
@@ -222,6 +224,7 @@ export default class Example extends React.Component {
                   </ToggleButton>
                 ))}
               </ButtonGroup>
+              { "  " }
               <DatePicker selected={e} onChange={this.HandleChange} />
             </Modal.Body>
             <Modal.Footer>
@@ -229,8 +232,10 @@ export default class Example extends React.Component {
             </Modal.Footer>
           </Modal>
         </>
-        <>
+        <ResponsiveContainer width = "100%" height = {400}>
+          
           <LineChart
+            className = "w-100 text-center mt-2"
             width={500}
             height={350}
             data={this.state.data}
@@ -248,7 +253,7 @@ export default class Example extends React.Component {
             <Legend />
             <Line type="monotone" dataKey="kg" stroke="#8884d8" activeDot={{ r: 8 }} />
           </LineChart>
-        </>
+        </ResponsiveContainer>
         <Button onClick={this.HandleOpen} style = {{ justifyContent: 'center', flexDirection: 'row', flex: 1 }}>Обновить График</Button>
       </div>
     );
