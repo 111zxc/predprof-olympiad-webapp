@@ -19,32 +19,6 @@ const Today = new Date();
 
 
 function DateTransfer(JDN) {
-  /*var tempD;
-  if (date > 365) tempD = date - 365;
-  else tempD = date;
-  let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
-  var i;
-  for (i = 0; i < mes.length; i++) {
-    if (tempD - mes[i] > 0) {
-      tempD = tempD - mes[i];
-    }
-    else break;
-  }
-  i++;
-
-  var d;
-  if (tempD < 10) d = '0' + String(tempD);
-  else d = String(tempD);
-
-  var m;
-  if (i < 10) m = '0' + String(i);
-  else m = String(i);
-
-  var s = d + '.' + m + '.';
-  if (date > 365) s += '2021';
-  else s += '2020';
-
-  return (s);*/
   var y =	4716,	v =	3,
   j =	1401,	u =	5,
   m =	2,s =	153,
@@ -97,17 +71,9 @@ export default class Example extends React.Component {
 
   HandleChange(e) {
     const that = this;
-    that.state.cSDate = e; // delay
+    that.state.cSDate = e;
     that.setState({ cSDate: e });
 
-    /*let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
-    let customDate = parseInt(dd);
-    for (var i = 0; i < mes.length; i++) {
-      if (i + 1 < parseInt(mm)) {
-        customDate = customDate + mes[i];
-      }
-      else break;
-    }*/
     let dd = String(e.getDate()).padStart(2, '0');
     let mm = String(e.getMonth() + 1).padStart(2, '0');
     var D = parseInt(dd);
@@ -115,7 +81,6 @@ export default class Example extends React.Component {
     var Y = e.getFullYear();;
     var customDate = 367 * Y - Math.trunc( (7 * (Y + 5001 + Math.trunc( (M - 9) / 7 ) )) / 4 ) + Math.trunc( (275 * M) / 9 ) + D + 1729777;
 
-    //if (e.getYear() == 121) { customDate = customDate + 365; }
     this.setState({ cStartDate: customDate });
     that.state.cStartDate = customDate;
   }
@@ -129,7 +94,6 @@ export default class Example extends React.Component {
 
   HandleOpen() {
     this.setState({ show: true });
-    //this.DateChange();
   }
 
   SetChecked(e) {
@@ -140,16 +104,7 @@ export default class Example extends React.Component {
     let curDate = new Date();
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
-    /*let mes = [31, 28, 31, 30, 31, 31, 30, 31, 30, 31]
-    curDate = parseInt(dd);
-    for (var i = 0; i < mes.length; i++) {
-      if (i + 1 < parseInt(mm)) {
-        curDate = curDate + mes[i];
-      }
-      else break;
-    }
-    curDate = curDate + 365;
-    let startDate = curDate;*/
+
     var D = parseInt(dd);
     var M = parseInt(mm);
     var Y = curDate.getFullYear();;
@@ -173,9 +128,7 @@ export default class Example extends React.Component {
           var date = parseInt(child.val().slice(pos + 1));
           if (date >= startDate && date <= curDate) {
             graphW = parseInt(child.val().slice(0, pos));
-            //graphD = DateTransfer(date);
-            that.newData.push({ kg: graphW, name: date }); //name: graphD
-            //console.log(that.newData.length);
+            that.newData.push({ kg: graphW, name: date });
           }
         }
         );
@@ -225,6 +178,7 @@ export default class Example extends React.Component {
                 ))}
               </ButtonGroup>
               { "  " }
+              Начальная дата:
               <DatePicker selected={e} onChange={this.HandleChange} />
             </Modal.Body>
             <Modal.Footer>
@@ -254,7 +208,7 @@ export default class Example extends React.Component {
             <Line type="monotone" dataKey="kg" stroke="#8884d8" activeDot={{ r: 8 }} />
           </LineChart>
         </ResponsiveContainer>
-        <Button onClick={this.HandleOpen} style = {{ justifyContent: 'center', flexDirection: 'row', flex: 1 }}>Обновить График</Button>
+        <Button onClick={this.HandleOpen}>Обновить График</Button>
       </div>
     );
   }
