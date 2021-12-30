@@ -3,8 +3,9 @@ import { Button, Modal, ButtonGroup, ToggleButton } from "react-bootstrap"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import app from "../firebase";
 import { emailRoute } from "./Navbar"
-import DatePicker from "react-datepicker"; //IMP!
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 
 const radios = [
   { name: 'Неделя', value: '1' },
@@ -15,40 +16,34 @@ const radios = [
   { name: 'Вручную', value: '6' },
 ];
 
-const Today = new Date();
+const TODAY = new Date();
 
 
-function DateTransfer(JDN) {
+function fromJDNtoString(JDN) {
+  /* изменяет дату из int JDN в DD.MM.YY */
   var y =	4716,	v =	3,
   j =	1401,	u =	5,
   m =	2,s =	153,
   n =	12,	w =	2,
-  r =	4, B = 274277,
-  p = 1461,	C = -38;
+  r =	4, p = 1461;
+
   var f = JDN + j;
-  var e = r * f + v;
-  var g = Math.trunc( (e % p) / r);
+  var currentStartDate = r * f + v;
+  var g = Math.trunc( (currentStartDate % p) / r);
   var h = u * g + w;
 
-  var DD = Math.trunc( (h % s) / u) + 1;
-  var MM = ( (Math.trunc(h / s) + m) % n) + 1;
-  var YY = Math.trunc(e / p) - y + Math.trunc( (n + m - MM) / n);
+  var DD = String(Math.trunc( (h % s) / u) + 1);
+  var MM = String(( (Math.trunc(h / s) + m) % n) + 1);
+  var YY = String(Math.trunc(currentStartDate / p) - y + Math.trunc( (n + m - MM) / n));
+  
+  if (MM < 10) { MM = '0' + MM }; // 1.1.2000 -> 01.01.2000
+  if (DD < 10) { DD = '0' + DD }; // same
 
-  DD = String(DD);
-  MM = String(MM);
-  YY = String(YY);
-  if (MM < 10) MM = '0' + MM;
-  if (DD < 10) DD = '0' + DD;
-
-  var s = DD + '.' + MM + '.' + YY;
-  return s;
+  return DD + '.' + MM + '.' + YY;
 }
 
 
-
-
 export default class Example extends React.Component {
-
   newData = [];
 
   constructor(props) {
@@ -58,7 +53,7 @@ export default class Example extends React.Component {
       show: false,
       active: 1,
       cStartDate: 427,
-      cSDate: Today,
+      cSDate: TODAY,
     };
     this.DateChange = this.DateChange.bind(this);
     this.HandleClose = this.HandleClose.bind(this);
@@ -67,24 +62,25 @@ export default class Example extends React.Component {
     this.HandleChange = this.HandleChange.bind(this);
   }
 
-
-
-  HandleChange(e) {
+  HandleChange(currentStartDate) {
     const that = this;
-    that.state.cSDate = e;
-    that.setState({ cSDate: e });
 
-    let dd = String(e.getDate()).padStart(2, '0');
-    let mm = String(e.getMonth() + 1).padStart(2, '0');
+    that.state.cSDate = currentStartDate;
+    this.setState({ cSDate: currentStartDate });
+
+    let dd = String(currentStartDate.getDate()).padStart(2, '0');
+    let mm = String(currentStartDate.getMonth() + 1).padStart(2, '0');
+
     var D = parseInt(dd);
     var M = parseInt(mm);
-    var Y = e.getFullYear();;
+    var Y = currentStartDate.getFullYear();
+
     var customDate = 367 * Y - Math.trunc( (7 * (Y + 5001 + Math.trunc( (M - 9) / 7 ) )) / 4 ) + Math.trunc( (275 * M) / 9 ) + D + 1729777;
 
-    this.setState({ cStartDate: customDate });
-    that.state.cStartDate = customDate;
+    this.setState({ cStartDate: customDate }); // я  не понимаю что тут происходит
+    that.state.cStartDate = customDate;        // мы два раза делаем одно и то же разными словами
+                                               // этот тот самый костыль? там же вроде по другому было
   }
-
 
 
   HandleClose() {
@@ -92,40 +88,49 @@ export default class Example extends React.Component {
     this.DateChange();
   }
 
+
   HandleOpen() {
     this.setState({ show: true });
   }
 
-  SetChecked(e) {
-    this.setState({ active: e });
+
+  SetChecked(currentStartDate) {
+    this.setState({ active: currentStartDate });
   }
+
 
   DateChange() {
     let curDate = new Date();
+
     let dd = String(curDate.getDate()).padStart(2, '0');
     let mm = String(curDate.getMonth() + 1).padStart(2, '0');
 
     var D = parseInt(dd);
     var M = parseInt(mm);
-    var Y = curDate.getFullYear();;
+    var Y = curDate.getFullYear();
+
     curDate = 367 * Y - Math.trunc( (7 * (Y + 5001 + Math.trunc( (M - 9) / 7 ) )) / 4 ) + Math.trunc( (275 * M) / 9 ) + D + 1729777;
     var startDate = curDate;
 
     if (this.state.active == 1) { startDate = startDate - 7; } // Week
     else if (this.state.active == 2) { startDate = startDate - 14; } // 2 Weekes
     else if (this.state.active == 3) { startDate = startDate - 30; } // Month
-    else if (this.state.active == 4) { startDate = startDate - 123; } // Half a year
+    else if (this.state.active == 4) { startDate = startDate - 182; } // Half a year
     else if (this.state.active == 5) { startDate = startDate - 365; } // Year
     else if (this.state.active == 6) { startDate = this.state.cStartDate; } // Custom
 
+    
     const that = this;
     this.newData = [];
-    let graphD, graphW;
+    let graphW;
+
     app.database().ref(emailRoute).get().then(function (snapshot) {
       if (snapshot.exists()) {
         snapshot.forEach((child) => {
+          
           var pos = child.val().search('/');
           var date = parseInt(child.val().slice(pos + 1));
+
           if (date >= startDate && date <= curDate) {
             graphW = parseInt(child.val().slice(0, pos));
             that.newData.push({ kg: graphW, name: date });
@@ -137,7 +142,7 @@ export default class Example extends React.Component {
         return a.name - b.name;
       })
       for (var i = 0; i < that.newData.length; i++) {
-        that.newData[i].name = DateTransfer(that.newData[i].name);
+        that.newData[i].name = fromJDNtoString(that.newData[i].name);
       }
 
       that.setState({ data: that.newData });
@@ -147,7 +152,7 @@ export default class Example extends React.Component {
 
 
   render() {
-    const e = this.state.cSDate;
+    const currentStartDate = this.state.cSDate;
     return (
       <div  >
         <>
@@ -171,15 +176,13 @@ export default class Example extends React.Component {
                     name="radio"
                     value={radio.value}
                     checked={this.state.active === radio.value}
-                    onChange={(e) => this.SetChecked(e.currentTarget.value)}
-                  >
+                    onChange={(currentStartDate) => this.SetChecked(currentStartDate.currentTarget.value)}>
                     {radio.name}
-                  </ToggleButton>
-                ))}
+                  </ToggleButton> ))}
               </ButtonGroup>
               { "  " }
               Начальная дата:
-              <DatePicker selected={e} onChange={this.HandleChange} />
+              <DatePicker selected={currentStartDate} onChange={this.HandleChange} />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="primary" onClick={this.HandleClose}>Применить</Button>

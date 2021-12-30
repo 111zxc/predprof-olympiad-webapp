@@ -7,6 +7,7 @@ import Dashboard from "./ChartPage"
 import Login from "./Login"
 import PrivateRoute from "./PrivateRoute"
 
+
 function App() {
   return (
     <Container
@@ -27,5 +28,6 @@ function App() {
     </Container>
   )
 }
+
 
 export default App

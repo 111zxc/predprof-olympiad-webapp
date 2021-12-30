@@ -4,20 +4,24 @@ import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import { FaWeight } from 'react-icons/fa';
 
+
 export default function Signup() {
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const { signup } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+
+  const { signup } = useAuth();
+  const history = useHistory();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   async function handleSubmit(e) {
     e.preventDefault()
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
+      return setError("Пароли не совпадают!")
     }
 
     try {
@@ -26,7 +30,7 @@ export default function Signup() {
       await signup(emailRef.current.value, passwordRef.current.value)
       history.push("/predprof-olympiad-webapp/")
     } catch {
-      setError("Failed to create an account")
+      setError("Не удалось создать аккаунт!")
     }
 
     setLoading(false)

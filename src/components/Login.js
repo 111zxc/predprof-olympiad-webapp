@@ -7,10 +7,13 @@ import { FaWeight } from 'react-icons/fa';
 export default function Login() {
   const emailRef = useRef()
   const passwordRef = useRef()
+
   const { login } = useAuth()
+  const history = useHistory()
+
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const history = useHistory()
+
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -21,12 +24,13 @@ export default function Login() {
       await login(emailRef.current.value, passwordRef.current.value)
       history.push("/predprof-olympiad-webapp/")
     } catch {
-      setError("Failed to log in")
+      setError("Не удалось выйти")
     }
 
     setLoading(false)
   }
 
+  
   return (
     <>
       <div>
