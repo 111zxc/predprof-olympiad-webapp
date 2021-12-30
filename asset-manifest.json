@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/predprof-olympiad-webapp/static/css/main.eb5fffd1.css",
-    "main.js": "/predprof-olympiad-webapp/static/js/main.92ef264e.js",
+    "main.js": "/predprof-olympiad-webapp/static/js/main.5ffea702.js",
     "index.html": "/predprof-olympiad-webapp/index.html",
     "main.eb5fffd1.css.map": "/predprof-olympiad-webapp/static/css/main.eb5fffd1.css.map",
-    "main.92ef264e.js.map": "/predprof-olympiad-webapp/static/js/main.92ef264e.js.map"
+    "main.5ffea702.js.map": "/predprof-olympiad-webapp/static/js/main.5ffea702.js.map"
   },
   "entrypoints": [
     "static/css/main.eb5fffd1.css",
-    "static/js/main.92ef264e.js"
+    "static/js/main.5ffea702.js"
   ]
 }
